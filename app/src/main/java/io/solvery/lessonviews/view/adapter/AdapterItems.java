@@ -1,6 +1,5 @@
 package io.solvery.lessonviews.view.adapter;
 
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import java.util.List;
 
 import io.solvery.lessonviews.R;
 import io.solvery.lessonviews.model.SampleData;
-import io.solvery.lessonviews.view.ui.activity.ActivityItem;
+import io.solvery.lessonviews.view.ui.activity.MainActivity;
 
 public class AdapterItems extends RecyclerView.Adapter<AdapterItems.ViewHolderItemBase> {
 
@@ -84,6 +83,9 @@ public class AdapterItems extends RecyclerView.Adapter<AdapterItems.ViewHolderIt
 /*            Intent intent = new Intent(view.getContext(), ActivityItem.class);
             intent.putExtra(ActivityItem.EXTRA_ID, data.get(getAdapterPosition()).text);
             view.getContext().startActivity(intent);*/
+
+            ((MainActivity) view.getContext()).showDetails(data.get(getAdapterPosition()).text);
+
         }
     }
 
