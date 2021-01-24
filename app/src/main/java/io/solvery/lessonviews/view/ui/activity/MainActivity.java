@@ -1,9 +1,13 @@
 package io.solvery.lessonviews.view.ui.activity;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,16 +22,6 @@ import io.solvery.lessonviews.view.adapter.AdapterItems;
 public class MainActivity extends AppCompatActivity {
     private AdapterItems adapter;
 
-    //build.gradle
-    //recycleViews
-    //активити и фрагменты
-    //навигация активити и фрагменты, передача параметров
-    //constraintlayout
-    //методы жизненного цикла
-    //рантайм першмишен
-    //сервисы
-    //mvp
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +33,14 @@ public class MainActivity extends AppCompatActivity {
     private void initList() {
         RecyclerView rvItems = findViewById(R.id.rvItems);
         rvItems.setLayoutManager(new LinearLayoutManager(this));
-        //rvItems.addItemDecoration(); todo add divider
-        //todo add snap
+
+        rvItems.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL)); //this add divider between items
+        //rvItems.addItemDecoration(new CustomItemDecoration()); //this add space between items
+        new LinearSnapHelper().attachToRecyclerView(rvItems); //this add items center after scrolling
+
         //todo GridLayoutManager
-         adapter = new AdapterItems();
+
+        adapter = new AdapterItems();
         rvItems.setAdapter(adapter);
 
 
@@ -67,4 +65,13 @@ public class MainActivity extends AppCompatActivity {
         result.add(new SampleData("Anna", 1));
         return result;
     }
+
+    private static class CustomItemDecoration extends RecyclerView.ItemDecoration {
+        @Override
+        public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+            if (parent.getChildAdapterPosition(view) != 0)
+                outRect.top = (int) view.getContext().getResources().getDimension(R.dimen.view_divider_height);
+        }
+    }
+
 }
