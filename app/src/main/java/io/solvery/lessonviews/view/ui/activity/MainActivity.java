@@ -35,5 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.flContainer, fragment)
                 .addToBackStack(null)
                 .commit();
+
     }
+
 }

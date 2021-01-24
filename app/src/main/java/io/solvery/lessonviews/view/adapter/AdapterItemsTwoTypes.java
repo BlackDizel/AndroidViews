@@ -12,20 +12,30 @@ import java.util.List;
 
 import io.solvery.lessonviews.R;
 import io.solvery.lessonviews.model.SampleData;
-import io.solvery.lessonviews.view.ui.activity.MainActivity;
 
-public class AdapterItems extends RecyclerView.Adapter<AdapterItems.ViewHolderItem> {
+public class AdapterItemsTwoTypes extends RecyclerView.Adapter<AdapterItemsTwoTypes.ViewHolderItemBase> {
 
     private List<SampleData> data;
 
+    private int TYPE_UNKNOWN = 0;
+    private int TYPE_HEADER = 1;
+    private int TYPE_ITEM = 2;
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? TYPE_HEADER : TYPE_ITEM;
+    }
+
     @NonNull
     @Override
-    public ViewHolderItem onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderItemBase onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER)
+            return new ViewHolderHeader(parent);
         return new ViewHolderItem(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderItem holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderItemBase holder, int position) {
         holder.setData(position);
     }
 
@@ -42,8 +52,16 @@ public class AdapterItems extends RecyclerView.Adapter<AdapterItems.ViewHolderIt
         //notifyItemRemoved();
     }
 
+    abstract static class ViewHolderItemBase extends RecyclerView.ViewHolder {
 
-    class ViewHolderItem extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public ViewHolderItemBase(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        abstract public void setData(int position);
+    }
+
+    class ViewHolderItem extends ViewHolderItemBase {
 
         private final TextView tvName, tvNumber;
 
@@ -51,7 +69,6 @@ public class AdapterItems extends RecyclerView.Adapter<AdapterItems.ViewHolderIt
             super(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_item, parent, false));
             tvName = itemView.findViewById(R.id.tvName);
             tvNumber = itemView.findViewById(R.id.tvNumber);
-            itemView.setOnClickListener(this);
         }
 
         public void setData(int position) {
@@ -59,9 +76,15 @@ public class AdapterItems extends RecyclerView.Adapter<AdapterItems.ViewHolderIt
             tvNumber.setText(String.valueOf(data.get(position).number));
         }
 
-        @Override
-        public void onClick(View view) {
-            ((MainActivity) view.getContext()).showDetails(data.get(getAdapterPosition()).text);
+    }
+
+    static class ViewHolderHeader extends ViewHolderItemBase {
+
+        public ViewHolderHeader(@NonNull ViewGroup parent) {
+            super(LayoutInflater.from(parent.getContext()).inflate(R.layout.view_header, parent, false));
+        }
+
+        public void setData(int position) {
         }
     }
 }
