@@ -24,9 +24,7 @@
             </intent-filter>
         </activity>
 
-<!--
         <activity android:name=".view.ui.activity.ActivityItem"/>
--->
 
         <!--<service android:name="" android:exported=""/>-->
     </application>

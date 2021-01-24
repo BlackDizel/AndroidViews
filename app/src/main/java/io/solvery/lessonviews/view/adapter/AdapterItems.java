@@ -81,9 +81,9 @@ public class AdapterItems extends RecyclerView.Adapter<AdapterItems.ViewHolderIt
 
         @Override
         public void onClick(View view) {
-/*            Intent intent = new Intent(view.getContext(), ActivityItem.class);
+            Intent intent = new Intent(view.getContext(), ActivityItem.class);
             intent.putExtra(ActivityItem.EXTRA_ID, data.get(getAdapterPosition()).text);
-            view.getContext().startActivity(intent);*/
+            view.getContext().startActivity(intent);
         }
     }
 
